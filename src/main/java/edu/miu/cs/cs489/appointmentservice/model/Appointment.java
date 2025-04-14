@@ -3,11 +3,13 @@ package edu.miu.cs.cs489.appointmentservice.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
+@Entity(name = "Appointments")
+@Data
 public class Appointment {
     @Id
     private String appointmentId;

@@ -3,11 +3,16 @@ package edu.miu.cs.cs489.appointmentservice.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "surgeries")
+@Data
+@AllArgsConstructor
 public class Surgery {
     @Id
     private String surgeryId;

@@ -3,10 +3,13 @@ package edu.miu.cs.cs489.appointmentservice.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
-@Entity
+@Entity(name = "Dentists")
+@Data
 public class Dentist {
     @Id
     private String dentistId;
