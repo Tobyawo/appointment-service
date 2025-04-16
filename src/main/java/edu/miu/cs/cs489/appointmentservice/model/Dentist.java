@@ -1,8 +1,6 @@
 package edu.miu.cs.cs489.appointmentservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -12,7 +10,8 @@ import java.util.List;
 @Data
 public class Dentist {
     @Id
-    private String dentistId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long dentistId;
     private String firstName;
     private String lastName;
     private String phone;

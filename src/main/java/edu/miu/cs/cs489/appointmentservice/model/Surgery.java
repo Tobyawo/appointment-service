@@ -1,8 +1,6 @@
 package edu.miu.cs.cs489.appointmentservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +10,10 @@ import java.util.List;
 
 @Entity(name = "surgeries")
 @Data
-@AllArgsConstructor
 public class Surgery {
     @Id
-    private String surgeryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long surgeryId;
     private String name;
     private String address;
     private String phone;

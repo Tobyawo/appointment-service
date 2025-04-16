@@ -1,8 +1,6 @@
 package edu.miu.cs.cs489.appointmentservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,7 +10,8 @@ import java.time.LocalTime;
 @Data
 public class Appointment {
     @Id
-    private String appointmentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long appointmentId;
     private LocalDate date;
     private LocalTime time;
     private String status;
