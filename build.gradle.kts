@@ -24,8 +24,11 @@ repositories {
 }
 
 dependencies {
+    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.security:spring-security-test")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
@@ -34,6 +37,12 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     implementation("com.fasterxml.jackson.core:jackson-databind")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+//    implementation ("org.flywaydb:flyway-core")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.1.Final")
+//    implementation("org.glassfish:jakarta.el:4.0.2")
 }
 
 tasks.withType<Test> {

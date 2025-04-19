@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/adsweb/api/v1")
-
-public class PatientController {
+@RequestMapping("/adsweb/staff/api/v1")
+@PreAuthorize("hasAnyRole('ADMIN') or hasAuthority('ADMIN_READ')")
+public class AdminController {
 
     private final PatientServiceImpl patientService;
 
-    public PatientController(PatientServiceImpl patientService) {
+    public AdminController(PatientServiceImpl patientService) {
         this.patientService = patientService;
     }
 
@@ -36,7 +36,6 @@ public class PatientController {
     }
 
     @PutMapping("/patient/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN') or hasAuthority('ADMIN_READ')")
     public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable Long id, @RequestBody PatientRequestDTO patientRequestDTO) {
         return ResponseEntity.ok(patientService.updatePatient(id, patientRequestDTO));
     }

@@ -6,6 +6,6 @@ public record AddressResponseDTO(
         String city,
         String state,
         String zip,
-        PatientResponseDTO patient
+        PatientResponseDTO2 patient
 ) {}
 
