@@ -43,9 +43,9 @@ public class DataInitializer implements CommandLineRunner {
 
             roleRepository.saveAll(List.of(admin, member));
 
-            System.out.println("✅ Initial roles and permissions loaded.");
+            System.out.println(" Initial roles and permissions loaded.");
         } else {
-            System.out.println("ℹ️ Roles and permissions already initialized.");
+            System.out.println(" Roles and permissions already initialized.");
         }
     }
 }
