@@ -1,7 +1,7 @@
 package edu.miu.cs.cs489.appointmentservice.controller;
 
-import edu.miu.cs.cs489.appointmentservice.dto.RoleRequestDTO;
-import edu.miu.cs.cs489.appointmentservice.dto.RoleResponseDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.request.RoleRequestDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.response.RoleResponseDTO;
 import edu.miu.cs.cs489.appointmentservice.service.RoleService;
 import lombok.RequiredArgsConstructor;
 
@@ -9,10 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/roles")
+@RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
 public class RoleController {
 

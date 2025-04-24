@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -35,7 +36,9 @@ public class AuthenticationService {
         //generate token for the user
         var user = (User) authentication.getPrincipal();
         String token = jwtService.generateToken(user);
-        return new AuthenticationResponse(token);
+
+        List<String> rolesList = user.getRoles().stream().map(Role::getName).toList();
+        return new AuthenticationResponse(token, rolesList);
     }
 
 
@@ -44,7 +47,13 @@ public class AuthenticationService {
         String encodedPassword = passwordEncoder.encode(createUserRequest.password());
 
         // Fetch roles from the database
-        Set<Role> roles = roleRepository.findByNameIn(createUserRequest.roleNames());
+        Set<Role> roles;
+        if (createUserRequest.roleNames() == null || createUserRequest.roleNames().isEmpty()) {
+            roles = Set.of(roleRepository.findByName("MEMBER").orElseThrow(()->  new IllegalArgumentException("No roles found for the provided role names.")));
+
+        }else {
+            roles = roleRepository.findByNameIn(createUserRequest.roleNames());
+        }
 
         // Create user with multiple roles
         User user = new User(
@@ -58,7 +67,8 @@ public class AuthenticationService {
         User registeredUser = userRepository.save(user);
         //Generate token for this user
         String token = jwtService.generateToken(registeredUser);
-        return new AuthenticationResponse(token);
+        List<String> rolesList = registeredUser.getRoles().stream().map(Role::getName).toList();
+        return new AuthenticationResponse(token, rolesList);
 
     }
 

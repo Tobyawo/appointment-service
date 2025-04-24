@@ -1,8 +1,8 @@
 package edu.miu.cs.cs489.appointmentservice.service.serviceImpl;
 
 
-import edu.miu.cs.cs489.appointmentservice.dto.RoleRequestDTO;
-import edu.miu.cs.cs489.appointmentservice.dto.RoleResponseDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.request.RoleRequestDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.response.RoleResponseDTO;
 import edu.miu.cs.cs489.appointmentservice.model.Role;
 import edu.miu.cs.cs489.appointmentservice.repository.RoleRepository;
 import edu.miu.cs.cs489.appointmentservice.service.RoleService;

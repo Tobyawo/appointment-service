@@ -1,7 +1,7 @@
 package edu.miu.cs.cs489.appointmentservice.service.serviceImpl;
 
-import edu.miu.cs.cs489.appointmentservice.dto.PatientRequestDTO;
-import edu.miu.cs.cs489.appointmentservice.dto.PatientResponseDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.request.PatientRequestDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.response.PatientResponseDTO;
 import edu.miu.cs.cs489.appointmentservice.exception.ResourceNotFoundException;
 import edu.miu.cs.cs489.appointmentservice.model.Patient;
 import edu.miu.cs.cs489.appointmentservice.repository.PatientRepository;
@@ -33,7 +33,7 @@ public class PatientServiceImpl implements PatientService {
                     .toList();
         }
 
-        public PatientResponseDTO getPatientById(Long id) {
+        public PatientResponseDTO getPatientById(String id) {
             Patient patient = patientRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
             return patientMapper.toDTO(patient);
@@ -41,10 +41,11 @@ public class PatientServiceImpl implements PatientService {
 
         public PatientResponseDTO createPatient(PatientRequestDTO patientRequestDTO) {
             Patient saved = patientRepository.save(patientMapper.toEntity(patientRequestDTO));
+            saved.setPatientId(patientRequestDTO.patientId());
             return patientMapper.toDTO(saved);
         }
 
-        public PatientResponseDTO updatePatient(Long id, PatientRequestDTO patientRequestDTO) {
+        public PatientResponseDTO updatePatient(String id, PatientRequestDTO patientRequestDTO) {
             Patient existing = patientRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
 
@@ -54,7 +55,7 @@ public class PatientServiceImpl implements PatientService {
             return patientMapper.toDTO(patientRepository.save(updated));
         }
 
-        public void deletePatient(Long id) {
+        public void deletePatient(String id) {
             if (!patientRepository.existsById(id)) {
                 throw new ResourceNotFoundException("Patient not found with id: " + id);
             }

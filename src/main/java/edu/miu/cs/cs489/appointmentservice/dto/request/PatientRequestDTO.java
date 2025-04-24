@@ -1,8 +1,8 @@
-package edu.miu.cs.cs489.appointmentservice.dto;
+package edu.miu.cs.cs489.appointmentservice.dto.request;
 
 
-public record PatientResponseDTO(
-        Long patientId,
+public record PatientRequestDTO(
+        String patientId,
         String firstName,
         String lastName,
         String phone,

@@ -25,29 +25,19 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests().requestMatchers("/public/**").permitAll().anyRequest()
-//                .hasRole("USER").and()
-//                // Possibly more configuration ...
-//                .formLogin() // enable form based log in
-//                // set permitAll for all URLs associated with Form Login
-//                .permitAll();
-//        return http.build();
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(
                         authorizeRequests ->
                                 authorizeRequests
-                                        .requestMatchers("/api/v1/auth/*","/api/roles/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                                        .requestMatchers("/api/v1/management/**").hasAnyRole(RoleEnum.ADMIN.name(), RoleEnum.MEMBER.name())
-                                        .requestMatchers("/api/v1/admin").hasRole(RoleEnum.ADMIN.name())
-                                        .requestMatchers("/api/v1/management/admin-write").hasAuthority(PermissionEnum.ADMIN_WRITE.getPermission())
-                                        .requestMatchers("/api/v1/management/for-all").hasAnyAuthority(
-                                                PermissionEnum.MEMBER_READ.getPermission(),
-                                                PermissionEnum.MEMBER_WRITE.getPermission(),
-                                                PermissionEnum.ADMIN_WRITE.getPermission(),
-                                                PermissionEnum.ADMIN_READ.getPermission()
-                                        )
+                                        .requestMatchers("/api/v1/auth/**","/api/roles/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                                        .requestMatchers("/admin/api/v1/**").hasRole(RoleEnum.ADMIN.name())
+//                                        .requestMatchers("/api/v1/management/for-all").hasAnyAuthority(
+//                                                PermissionEnum.MEMBER_READ.getPermission(),
+//                                                PermissionEnum.MEMBER_WRITE.getPermission(),
+//                                                PermissionEnum.ADMIN_WRITE.getPermission(),
+//                                                PermissionEnum.ADMIN_READ.getPermission()
+//                                        )
                                         .anyRequest().authenticated()
-//                                        .requestMatchers("/api/v1/auth/authenticate").permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider)

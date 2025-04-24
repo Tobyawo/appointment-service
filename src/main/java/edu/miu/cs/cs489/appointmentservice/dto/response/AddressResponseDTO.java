@@ -1,4 +1,4 @@
-package edu.miu.cs.cs489.appointmentservice.dto;
+package edu.miu.cs.cs489.appointmentservice.dto.response;
 
 public record AddressResponseDTO(
         Long id,

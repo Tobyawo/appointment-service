@@ -26,8 +26,6 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -49,10 +47,15 @@ public class User implements UserDetails {
 
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
+      Set<SimpleGrantedAuthority> authorities = roles.stream()
                 .flatMap(role -> role.getPermissions().stream())
-                .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+                .map(permission -> new SimpleGrantedAuthority(permission.getName().toUpperCase()))
                 .collect(Collectors.toSet());
+        authorities.addAll(roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()))
+                .collect(Collectors.toSet()));
+
+        return authorities;
     }
 
 

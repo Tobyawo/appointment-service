@@ -1,7 +1,10 @@
 package edu.miu.cs.cs489.appointmentservice.controller;
 
-import edu.miu.cs.cs489.appointmentservice.dto.AddressResponseDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.response.AddressResponseDTO;
 import edu.miu.cs.cs489.appointmentservice.service.AddressService;
+import edu.miu.cs.cs489.appointmentservice.service.serviceImpl.AddressServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,16 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/adsweb/api/v1")
+@RequestMapping("api/v1/addresses")
+@RequiredArgsConstructor
 public class AddressController {
 
-    private AddressService addressService;
+    private AddressServiceImpl addressService;
 
-    public AddressController(AddressService addressService) {
+    @Autowired
+    public AddressController(AddressServiceImpl addressService) {
         this.addressService = addressService;
     }
 
-    @GetMapping(value = "/addresses")
+    @GetMapping()
     public ResponseEntity<List<AddressResponseDTO>> listAddress() {
         return ResponseEntity.ok(addressService.getAllAddresses());
     }
