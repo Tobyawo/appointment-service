@@ -1,8 +1,9 @@
 package edu.miu.cs.cs489.appointmentservice.controller;
 
-import edu.miu.cs.cs489.appointmentservice.dto.PatientRequestDTO;
-import edu.miu.cs.cs489.appointmentservice.dto.PatientResponseDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.request.PatientRequestDTO;
+import edu.miu.cs.cs489.appointmentservice.dto.response.PatientResponseDTO;
 import edu.miu.cs.cs489.appointmentservice.service.serviceImpl.PatientServiceImpl;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/adsweb/staff/api/v1")
-@PreAuthorize("hasAnyRole('ADMIN') or hasAuthority('ADMIN_READ')")
+@RequestMapping("/admin/api/v1")
 public class AdminController {
 
     private final PatientServiceImpl patientService;
@@ -26,7 +26,7 @@ public class AdminController {
     }
 
     @GetMapping("/patients/{id}")
-    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable Long id) {
+    public ResponseEntity<PatientResponseDTO> getPatientById(@PathVariable String id) {
         return ResponseEntity.ok(patientService.getPatientById(id));
     }
 
@@ -36,19 +36,19 @@ public class AdminController {
     }
 
     @PutMapping("/patient/{id}")
-    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable Long id, @RequestBody PatientRequestDTO patientRequestDTO) {
+    public ResponseEntity<PatientResponseDTO> updatePatient(@PathVariable String id, @RequestBody PatientRequestDTO patientRequestDTO) {
         return ResponseEntity.ok(patientService.updatePatient(id, patientRequestDTO));
     }
 
     @DeleteMapping("/patient/{id}")
     @PreAuthorize("hasAnyRole('ADMIN') or hasAuthority('ADMIN_READ')")
-    public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePatient(@PathVariable String id) {
         patientService.deletePatient(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/patient/search/{searchString}")
-    public ResponseEntity<List<PatientResponseDTO>> searchPatients(@PathVariable String searchString) {
+    @GetMapping("/patient/search")
+    public ResponseEntity<List<PatientResponseDTO>> searchPatients(@RequestParam("searchString") @NotBlank String searchString) {
         return ResponseEntity.ok(patientService.searchPatients(searchString));
     }
 }
