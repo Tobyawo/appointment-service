@@ -4,7 +4,7 @@ FROM gradle:8.5-jdk21 AS builder
 WORKDIR /app
 
 # Copy only Gradle build files first for layer caching
-COPY build.gradle* settings.gradle* gradle.properties ./
+COPY build.gradle* settings.gradle* ./
 COPY gradle ./gradle
 
 # Download dependencies
