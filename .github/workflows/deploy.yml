@@ -1,9 +1,10 @@
 name: Deploy to EKS Fargate (gm-services-cluster)
 
 on:
-  push:
-    branches:
-      - main  # Trigger deployment on push to main
+  workflow_run:
+    workflows: ["Build and Publish Docker Image"]
+    types:
+      - completed
 
 jobs:
   deploy:
@@ -26,14 +27,14 @@ jobs:
 
       - name: Set Helm Image Tag
         run: |
-          echo "IMAGE_TAG=latest" >> $GITHUB_ENV  # Optional: replace with Git SHA
+          echo "IMAGE_TAG=latest" >> $GITHUB_ENV  # Or use GITHUB_SHA for better traceability
 
-      - name: Helm Upgrade - appointment-service
+      - name: Install Helmfile
         run: |
-          helm upgrade --install appointment-service ./helm-chart \
-            --namespace gm-services \
-            --create-namespace \
-            --set image.repository=tobyawo/appointment-service \
-            --set image.tag=${{ env.IMAGE_TAG }} \
-            --set service.port=8489 \
-            --wait
+          curl -L https://github.com/helmfile/helmfile/releases/download/v0.155.0/helmfile_0.155.0_linux_amd64.tar.gz | tar xz
+          sudo mv helmfile /usr/local/bin/
+
+      - name: Deploy with Helmfile
+        run: |
+          cd helm/gm-services
+          helmfile apply
