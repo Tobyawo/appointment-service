@@ -1,0 +1,6 @@
+releases:
+  - name: appointment-service
+    namespace: gm-services
+    chart: ./charts/appointment-service
+    values:
+      - ./charts/appointment-service/values.yaml
