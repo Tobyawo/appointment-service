@@ -1,26 +1,33 @@
-# Stage 1: build the JAR using the Gradle wrapper
-FROM gradle:7.6-jdk21 AS builder
-WORKDIR /home/app
+# ---- Stage 1: Build the JAR with Gradle ----
+FROM gradle:8.5-jdk21 AS builder
 
-# Copy only the wrapper and build scripts, so we cache JVM downloads & deps
-COPY gradlew gradlew
-COPY gradle gradle
-COPY build.gradle.kts settings.gradle.kts ./
+WORKDIR /app
 
-# Make the wrapper executable
-RUN chmod +x gradlew
+# Copy only Gradle build files first for layer caching
+COPY build.gradle* settings.gradle* gradle.properties ./
+COPY gradle ./gradle
 
-# Pre-fetch dependencies & compile
-RUN ./gradlew clean bootJar --no-daemon -x test
+# Download dependencies
+RUN gradle build --no-daemon || true
 
-# Stage 2: runtime image
-FROM openjdk:21-jdk-slim
+# Copy source code
+COPY . .
+
+# Build the fat JAR
+RUN gradle clean build --no-daemon
+
+# ---- Stage 2: Create minimal runtime image ----
+FROM openjdk:21
+
+WORKDIR /app
+
 EXPOSE 8489
 
-# Copy the fat JAR from the builder stage
-COPY --from=builder /home/app/build/libs/*.jar /appointment-service.jar
+# Copy the built JAR from the builder stage
+COPY --from=builder /app/build/libs/appointment-service.jar ./appointment-service.jar
 
-ENTRYPOINT ["java","-jar","/appointment-service.jar"]
+ENTRYPOINT [ "java", "-jar", "/app/appointment-service.jar" ]
+
 
 
 
