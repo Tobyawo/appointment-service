@@ -50,3 +50,10 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveBaseName.set("appointment-service")
+    archiveVersion.set("") // Optional: removes version from file name
+}
+
+

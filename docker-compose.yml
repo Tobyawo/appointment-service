@@ -1,0 +1,28 @@
+services:
+  appointment-service:
+    container_name: appointment-service
+    image: tobyawo/appointment-service
+    build: ./
+    restart: on-failure
+    ports:
+      - "8489:8489"
+    logging:
+      driver: "gelf"
+      options:
+        gelf-address: "udp://localhost:5044"  # Replace `logstash` with the actual hostname of your Logstash container
+        tag: "appointment-service"              # Optional: adds a tag to help identify logs in Fluentd output
+    networks:
+      - gm-services-docker-network
+      - default
+
+networks:
+  gm-services-docker-network:
+    driver: bridge
+
+  default:
+    external:
+      name: gm-services-docker-network
+
+#Network: Make sure the network gm-services-docker-network is created and available:
+
+#docker network create g4m-services-docker-network
