@@ -3,6 +3,7 @@ package edu.miu.cs.cs489.appointmentservice.controller;
 import edu.miu.cs.cs489.appointmentservice.dto.request.PatientRequestDTO;
 import edu.miu.cs.cs489.appointmentservice.dto.response.PatientResponseDTO;
 import edu.miu.cs.cs489.appointmentservice.service.serviceImpl.PatientServiceImpl;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +32,7 @@ public class AdminController {
     }
 
     @PostMapping("/patients")
-    public ResponseEntity<PatientResponseDTO> createPatient(@RequestBody PatientRequestDTO patientRequestDTO) {
+    public ResponseEntity<PatientResponseDTO> createPatient( @Valid @RequestBody PatientRequestDTO patientRequestDTO) {
         return ResponseEntity.ok(patientService.createPatient(patientRequestDTO));
     }
 

@@ -10,4 +10,7 @@ public record RegisterRequest(
         String password,
         Set<String> roleNames
 ) {
+    public RegisterRequest(String mail, String password123, String roleUser) {
+        this("", "", mail, password123, Set.of(roleUser));
+    }
 }

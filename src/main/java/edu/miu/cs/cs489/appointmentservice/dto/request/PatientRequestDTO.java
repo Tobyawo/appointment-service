@@ -7,5 +7,9 @@ public record PatientRequestDTO(
         String lastName,
         String phone,
         AddressRequestDTO primaryAddress
-) {}
+) {
+    public PatientRequestDTO(String patientId, String firstName, String lastName) {
+        this(patientId, firstName, lastName, "", null);
+    }
+}
 

@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: appointment-service
 spec:
-  type: LoadBalancer  # Change from ClusterIP to NodePort
+  type: ClusterIP  # Change from ClusterIP to NodePort
   selector:
     app: appointment-service
   ports:
     - protocol: TCP
-      port: 8489        # The service port inside the cluster
-      targetPort: 8489    # The port inside the container
+      port: 8486        # The service port inside the cluster
+      targetPort: 8486    # The port inside the container
 #      nodePort: 30002      # The port exposed on each node for external access

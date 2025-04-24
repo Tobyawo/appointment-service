@@ -4,6 +4,7 @@ import edu.miu.cs.cs489.appointmentservice.auth.AuthenticationRequest;
 import edu.miu.cs.cs489.appointmentservice.auth.AuthenticationResponse;
 import edu.miu.cs.cs489.appointmentservice.auth.AuthenticationService;
 import edu.miu.cs.cs489.appointmentservice.auth.RegisterRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AuthenticationController {
      * for /register
      */
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest registerRequest) {
         AuthenticationResponse authenticationResponse = authenticationService.createUserWithRoles(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationResponse);
     }
@@ -32,7 +33,7 @@ public class AuthenticationController {
      */
     //AuthenticationResponse authenticate(authenticationRequest)
     @PostMapping("/authenticate")
-    private ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
+    private ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
         AuthenticationResponse authenticationResponse = authenticationService.authenticate(authenticationRequest);
         return ResponseEntity.status(HttpStatus.OK).body(authenticationResponse);
     }
