@@ -9,6 +9,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -33,5 +34,5 @@ jobs:
           push: true
           tags: tobyawo/appointment-service:latest
 
-      - name: Logout from Docker Hub
+      - name: Log out
         run: docker logout
